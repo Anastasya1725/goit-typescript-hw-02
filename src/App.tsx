@@ -8,7 +8,6 @@ import LoadMoreBtn from "./components/LoadMoreBtn";
 import ErrorMessage from "./components/ErrorMessage";
 import ImageModal from "./components/ImageModal";
 
-
 const ACCESS_KEY = 'myI32zPgISLilMdPIF3xAVvWYLTreLyDEvK2U0C00rs';
 
 interface User {
@@ -33,6 +32,12 @@ export interface Image {
   user: User;
 }
 
+interface UnsplashApiResponse {
+  total: number;
+  total_pages: number;
+  results: Image[];
+}
+
 const fetchImages = async (
   searchTerm: string,
   page: number,
@@ -45,7 +50,7 @@ const fetchImages = async (
   setError(false);
 
   try {
-    const response = await axios.get('https://api.unsplash.com/search/photos', {
+    const response = await axios.get<UnsplashApiResponse>('https://api.unsplash.com/search/photos', {
       params: {
         query: searchTerm,
         page,
@@ -124,3 +129,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+
